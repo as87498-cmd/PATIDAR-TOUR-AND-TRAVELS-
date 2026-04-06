@@ -13,7 +13,7 @@
         .tagline { text-align: center; font-size: 13px; color: #7f8c8d; margin-bottom: 15px; font-style: italic; }
         .input-group { margin-bottom: 10px; text-align: left; }
         label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #34495e; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .row { display: flex; gap: 8px; }
         .btn { background: #25D366; color: white; width: 100%; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(37,211,102,0.3); }
     </style>
@@ -32,9 +32,15 @@
             <input type="text" id="custName" placeholder="Customer Name">
         </div>
 
-        <div class="input-group">
-            <label>Mobile</label>
-            <input type="tel" id="custMob" placeholder="Contact Number">
+        <div class="row">
+            <div class="input-group" style="flex:1.5;">
+                <label>Mobile</label>
+                <input type="tel" id="custMob" placeholder="Contact No.">
+            </div>
+            <div class="input-group" style="flex:1;">
+                <label>Sawari (Persons)</label>
+                <input type="number" id="passengers" placeholder="Qty" min="1">
+            </div>
         </div>
 
         <div class="row">
@@ -59,44 +65,46 @@
             </div>
         </div>
 
-        <button class="btn" onclick="goToWhatsApp()">Book Now on WhatsApp</button>
+        <button class="btn" onclick="sendToWhatsApp()">Book Now on WhatsApp</button>
     </div>
 </div>
 
 <script>
-    function goToWhatsApp() {
-        var name = document.getElementById('custName').value;
-        var mob = document.getElementById('custMob').value;
-        var from = document.getElementById('fromLoc').value;
-        var to = document.getElementById('toLoc').value;
-        var date = document.getElementById('tripDate').value;
-        var time = document.getElementById('tripTime').value;
+    function sendToWhatsApp() {
+        var n = document.getElementById('custName').value;
+        var m = document.getElementById('custMob').value;
+        var p = document.getElementById('passengers').value;
+        var f = document.getElementById('fromLoc').value;
+        var t = document.getElementById('toLoc').value;
+        var d = document.getElementById('tripDate').value;
+        var tm = document.getElementById('tripTime').value;
 
-        if(!name || !mob || !from || !to) {
+        if(!n || !m || !f || !t || !p) {
             alert("Bhai, sari details bharo!");
             return;
         }
 
         var wpNumber = "916264296197"; 
 
-        // Ek dum simple text format (Bina zyada symbols ke)
-        var message = "Patidar Tour & Travels - New Booking%0A" + 
-                      "-----------------------%0A" + 
-                      "Name: " + name + "%0A" + 
-                      "Contact: " + mob + "%0A" + 
-                      "From: " + from + "%0A" + 
-                      "To: " + to + "%0A" + 
-                      "Date: " + date + "%0A" + 
-                      "Time: " + time + "%0A" + 
-                      "-----------------------%0A" + 
-                      "Confirm My Booking!";
+        // Saari details ko ek professional format mein jodna
+        var message = "*Patidar Tour & Travels - Booking Request*\n" + 
+                      "---------------------------\n" + 
+                      "*Name:* " + n + "\n" + 
+                      "*Contact:* " + m + "\n" + 
+                      "*Sawari:* " + p + "\n" + 
+                      "*From:* " + f + "\n" + 
+                      "*To:* " + t + "\n" + 
+                      "*Date:* " + d + "\n" + 
+                      "*Time:* " + tm + "\n" + 
+                      "---------------------------\n" + 
+                      "Please confirm my booking.";
 
-        // Sabse purana aur working tarika
-        var url = "https://api.whatsapp.com/send?phone=" + wpNumber + "&text=" + message;
+        // Special encoding taaki details miss na ho
+        var finalUrl = "https://api.whatsapp.com/send?phone=" + wpNumber + "&text=" + encodeURIComponent(message);
         
-        window.location.href = url;
+        window.location.href = finalUrl;
     }
 </script>
 
 </body>
-    </html>
+</html>
