@@ -21,7 +21,7 @@
 <body>
 
 <div class="card">
-    <img src="poster.png" alt="Patidar Travels" class="header-img" onerror="this.src='https://via.placeholder.com/400x200?text=Poster+Not+Found'">
+    <img src="poster.png" alt="Patidar Travels" class="header-img">
 
     <div class="content">
         <h2>Patidar Tour & Travels</h2>
@@ -34,7 +34,7 @@
 
         <div class="input-group">
             <label>Mobile</label>
-            <input type="tel" id="custMob" placeholder="9876XXXXXX">
+            <input type="tel" id="custMob" placeholder="Contact Number">
         </div>
 
         <div class="row">
@@ -59,12 +59,12 @@
             </div>
         </div>
 
-        <button class="btn" onclick="sendToWhatsApp()">Book Now on WhatsApp</button>
+        <button class="btn" onclick="goToWhatsApp()">Book Now on WhatsApp</button>
     </div>
 </div>
 
 <script>
-    function sendToWhatsApp() {
+    function goToWhatsApp() {
         var name = document.getElementById('custName').value;
         var mob = document.getElementById('custMob').value;
         var from = document.getElementById('fromLoc').value;
@@ -79,24 +79,24 @@
 
         var wpNumber = "916264296197"; 
 
-        // WhatsApp message format fix
-        var text = "*Patidar Tour & Travels - New Booking*" + "%0A" +
-                   "----------------------------" + "%0A" +
-                   "*Name:* " + encodeURIComponent(name) + "%0A" +
-                   "*Contact:* " + encodeURIComponent(mob) + "%0A" +
-                   "*From:* " + encodeURIComponent(from) + "%0A" +
-                   "*To:* " + encodeURIComponent(to) + "%0A" +
-                   "*Date:* " + encodeURIComponent(date) + "%0A" +
-                   "*Time:* " + encodeURIComponent(time) + "%0A" +
-                   "----------------------------" + "%0A" +
-                   "Please confirm my booking!";
+        // Ek dum simple text format (Bina zyada symbols ke)
+        var message = "Patidar Tour & Travels - New Booking%0A" + 
+                      "-----------------------%0A" + 
+                      "Name: " + name + "%0A" + 
+                      "Contact: " + mob + "%0A" + 
+                      "From: " + from + "%0A" + 
+                      "To: " + to + "%0A" + 
+                      "Date: " + date + "%0A" + 
+                      "Time: " + time + "%0A" + 
+                      "-----------------------%0A" + 
+                      "Confirm My Booking!";
 
-        var finalUrl = "https://wa.me/" + wpNumber + "?text=" + text;
+        // Sabse purana aur working tarika
+        var url = "https://api.whatsapp.com/send?phone=" + wpNumber + "&text=" + message;
         
-        // Is baar window.location.assign use kar rahe hain jo mobile pe better chalta hai
-        window.location.assign(finalUrl);
+        window.location.href = url;
     }
 </script>
 
 </body>
-</html>
+    </html>
