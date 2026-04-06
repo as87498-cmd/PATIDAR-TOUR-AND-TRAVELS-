@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patidar Tour & Travels</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2f3; margin: 0; padding: 15px; display: flex; justify-content: center; }
         .card { background: white; width: 100%; max-width: 400px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        /* Image Section */
         .header-img { width: 100%; height: auto; display: block; background: #333; min-height: 180px; object-fit: cover; }
         .content { padding: 25px; }
-        h2 { text-align: center; margin: 0 0 5px 0; color: #2c3e50; font-size: 22px; }
+        h2 { text-align: center; margin: 0; color: #2c3e50; font-size: 22px; }
         .tagline { text-align: center; font-size: 13px; color: #7f8c8d; margin-bottom: 20px; font-style: italic; }
-        .input-group { margin-bottom: 12px; }
+        .input-group { margin-bottom: 12px; text-align: left; }
         label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #34495e; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; transition: 0.3s; }
-        input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52,152,219,0.3); }
+        input { width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .row { display: flex; gap: 10px; }
-        .btn { background: #25D366; color: white; width: 100%; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
-        .btn:active { transform: scale(0.98); }
+        .btn { background: #25D366; color: white; width: 100%; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; display: block; text-align: center; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <img src="poster.jpg" alt="Patidar Travels" class="header-img" onerror="this.src='https://via.placeholder.com/400x200?text=Patidar+Tour+And+Travels'">
+    <img src="poster.jpg" alt="Patidar Travels" class="header-img" onerror="this.src='https://via.placeholder.com/400x200?text=Patidar+Tour+And+Travels+Poster'">
 
     <div class="content">
         <h2>Patidar Tour & Travels</h2>
@@ -32,7 +29,7 @@
         
         <div class="input-group">
             <label>Customer Name</label>
-            <input type="text" id="custName" placeholder="Apna Naam Likhein">
+            <input type="text" id="custName" placeholder="Apna Naam">
         </div>
 
         <div class="input-group">
@@ -62,43 +59,46 @@
             </div>
         </div>
 
-        <button class="btn" onclick="sendMsg()">Book Now on WhatsApp</button>
+        <button class="btn" onclick="sendToWhatsApp()">Book Now on WhatsApp</button>
     </div>
 </div>
 
 <script>
-    function sendMsg() {
-        var n = document.getElementById('custName').value;
-        var m = document.getElementById('custMob').value;
-        var f = document.getElementById('fromLoc').value;
-        var t = document.getElementById('toLoc').value;
-        var d = document.getElementById('tripDate').value;
-        var tm = document.getElementById('tripTime').value;
+    function sendToWhatsApp() {
+        // Values capture karo
+        var name = document.getElementById('custName').value;
+        var mob = document.getElementById('custMob').value;
+        var from = document.getElementById('fromLoc').value;
+        var to = document.getElementById('toLoc').value;
+        var date = document.getElementById('tripDate').value;
+        var time = document.getElementById('tripTime').value;
 
-        if(n=="" || m=="" || f=="" || t=="") {
-            alert("Bhai, sari details bharo tabhi toh booking hogi!");
+        if(!name || !mob || !from || !to) {
+            alert("Bhai, sari details bharo!");
             return;
         }
 
-        // --- Aapka Correct Number ---
         var wpNumber = "916264296197"; 
 
-        // Professional Message Format
-        var text = "*Patidar Tour & Travels - New Booking*%0A" + 
-                   "━━━━━━━━━━━━━━━━━━━%0A" + 
-                   "👤 *Name:* " + n + "%0A" + 
-                   "📞 *Mobile:* " + m + "%0A" + 
-                   "📍 *From:* " + f + "%0A" + 
-                   "🏁 *To:* " + t + "%0A" + 
-                   "📅 *Date:* " + d + "%0A" + 
-                   "⏰ *Time:* " + tm + "%0A" +
-                   "━━━━━━━━━━━━━━━━━━━%0A" +
-                   "Kindly confirm this booking!";
+        // Message ko sahi se encode karna
+        var message = "*Patidar Tour & Travels - New Booking*%0A" + 
+                      "----------------------------%0A" + 
+                      "*Name:* " + encodeURIComponent(name) + "%0A" + 
+                      "*Contact:* " + encodeURIComponent(mob) + "%0A" + 
+                      "*From:* " + encodeURIComponent(from) + "%0A" + 
+                      "*To:* " + encodeURIComponent(to) + "%0A" + 
+                      "*Date:* " + encodeURIComponent(date) + "%0A" + 
+                      "*Time:* " + encodeURIComponent(time) + "%0A" + 
+                      "----------------------------%0A" + 
+                      "Confirm My Booking!";
 
-        var url = "https://wa.me/" + wpNumber + "?text=" + text;
-        window.open(url, '_blank').focus();
+        // Final URL
+        var finalUrl = "https://wa.me/" + wpNumber + "?text=" + message;
+        
+        // Mobile par redirect
+        window.location.href = finalUrl;
     }
 </script>
 
 </body>
-    </html>
+</html>
