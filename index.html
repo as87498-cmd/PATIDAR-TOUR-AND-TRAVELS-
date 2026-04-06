@@ -13,7 +13,7 @@
         .tagline { text-align: center; font-size: 13px; color: #7f8c8d; margin-bottom: 15px; font-style: italic; }
         .input-group { margin-bottom: 10px; text-align: left; }
         label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #34495e; text-transform: uppercase; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        input { width: 100%; padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         .row { display: flex; gap: 8px; }
         .btn { background: #25D366; color: white; width: 100%; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(37,211,102,0.3); }
     </style>
@@ -28,49 +28,49 @@
         <p class="tagline">Aapke Safar Ka Sachcha Sathi</p>
         
         <div class="input-group">
-            <label>Naam</label>
-            <input type="text" id="custName" placeholder="Customer Name">
+            <label>Customer Name</label>
+            <input type="text" id="custName" placeholder="Apna Naam">
         </div>
 
         <div class="row">
             <div class="input-group" style="flex:1.5;">
-                <label>Mobile</label>
+                <label>Mobile Number</label>
                 <input type="tel" id="custMob" placeholder="Contact No.">
             </div>
             <div class="input-group" style="flex:1;">
-                <label>Sawari (Persons)</label>
-                <input type="number" id="passengers" placeholder="Qty" min="1">
+                <label>Sawari (Qty)</label>
+                <input type="number" id="passengers" placeholder="1" min="1">
             </div>
         </div>
 
         <div class="row">
             <div class="input-group" style="flex:1;">
-                <label>Kahan se</label>
-                <input type="text" id="fromLoc" placeholder="From">
+                <label>Kahan se (From)</label>
+                <input type="text" id="fromLoc" placeholder="City">
             </div>
             <div class="input-group" style="flex:1;">
-                <label>Kahan tak</label>
-                <input type="text" id="toLoc" placeholder="To">
+                <label>Kahan tak (To)</label>
+                <input type="text" id="toLoc" placeholder="Destination">
             </div>
         </div>
 
         <div class="row">
             <div class="input-group" style="flex:1;">
-                <label>Date</label>
+                <label>Pickup Date</label>
                 <input type="date" id="tripDate">
             </div>
             <div class="input-group" style="flex:1;">
-                <label>Time</label>
+                <label>Pickup Time</label>
                 <input type="time" id="tripTime">
             </div>
         </div>
 
-        <button class="btn" onclick="sendToWhatsApp()">Book Now on WhatsApp</button>
+        <button class="btn" onclick="sendBooking()">Book Now on WhatsApp</button>
     </div>
 </div>
 
 <script>
-    function sendToWhatsApp() {
+    function sendBooking() {
         var n = document.getElementById('custName').value;
         var m = document.getElementById('custMob').value;
         var p = document.getElementById('passengers').value;
@@ -79,29 +79,28 @@
         var d = document.getElementById('tripDate').value;
         var tm = document.getElementById('tripTime').value;
 
-        if(!n || !m || !f || !t || !p) {
-            alert("Bhai, sari details bharo!");
+        if(!n || !m || !f || !t || !p || !d || !tm) {
+            alert("Bhai, sari details bharo tabhi booking pakki hogi!");
             return;
         }
 
         var wpNumber = "916264296197"; 
 
-        // Saari details ko ek professional format mein jodna
-        var message = "*Patidar Tour & Travels - Booking Request*\n" + 
-                      "---------------------------\n" + 
-                      "*Name:* " + n + "\n" + 
-                      "*Contact:* " + m + "\n" + 
-                      "*Sawari:* " + p + "\n" + 
-                      "*From:* " + f + "\n" + 
-                      "*To:* " + t + "\n" + 
-                      "*Date:* " + d + "\n" + 
-                      "*Time:* " + tm + "\n" + 
-                      "---------------------------\n" + 
-                      "Please confirm my booking.";
+        // Professional Format for WhatsApp
+        var message = "*Patidar Tour & Travels - New Booking*\n" + 
+                      "━━━━━━━━━━━━━━━━━━━\n" + 
+                      "👤 *Name:* " + n + "\n" + 
+                      "📞 *Contact:* " + m + "\n" + 
+                      "👥 *Sawari:* " + p + "\n" + 
+                      "📍 *From:* " + f + "\n" + 
+                      "🏁 *To:* " + t + "\n" + 
+                      "📅 *Pickup Date:* " + d + "\n" + 
+                      "⏰ *Pickup Time:* " + tm + "\n" + 
+                      "━━━━━━━━━━━━━━━━━━━\n" + 
+                      "Please confirm this booking request.";
 
-        // Special encoding taaki details miss na ho
+        // WhatsApp redirection logic
         var finalUrl = "https://api.whatsapp.com/send?phone=" + wpNumber + "&text=" + encodeURIComponent(message);
-        
         window.location.href = finalUrl;
     }
 </script>
